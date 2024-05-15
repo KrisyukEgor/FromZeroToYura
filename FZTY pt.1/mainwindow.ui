@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1466</width>
+    <height>1062</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="playCasino">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>890</y>
+      <width>661</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(224, 27, 36);</string>
+    </property>
+    <property name="text">
+     <string>Играть в Рулетку</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="findWork">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>250</y>
+      <width>931</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Работа</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="findClothes">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>350</y>
+      <width>461</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Одежда</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="findTransport">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>450</y>
+      <width>461</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Транспорт</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="findFood">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>550</y>
+      <width>461</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Еда</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="findHousing">
+    <property name="geometry">
+     <rect>
+      <x>699</x>
+      <y>350</y>
+      <width>471</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Жилье</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="findRelationship">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>450</y>
+      <width>471</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Семья</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="findEducation">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>550</y>
+      <width>471</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Образование</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1466</width>
+     <height>39</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
