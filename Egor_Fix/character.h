@@ -32,23 +32,10 @@ public:
         return character;
     }
 
-    bool loadCharacterData(const QString& filename);
+    bool loadCharacterData();
 
-    bool saveCharacterData(const QString& filename) const {
-        QFile file(filename);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QMessageBox::information(nullptr, "Error!", "Couldn't save to file. File already exists.");
-            return false;
-        }
+    bool saveCharacterData();
 
-        QTextStream out(&file);
-
-        out << age << " " << health << " " << happiness << "\n";
-        out << monthlyIncome << " " << monthlyExpenses << " " << money << "\n";
-        out << job << " " << relationship << " " << clothes << " " << food << " " << housing << " " << transport << "\n";
-
-        return true;
-    }
 
     // Getters
     int getAge() const;
@@ -85,6 +72,10 @@ public:
 
     bool canChangeJob() const;
 
+private:
+    void Update_all_in_file();
+
+
 public slots:
     void updateChanges();
     void betChange(int moneyMinus);
@@ -110,6 +101,8 @@ private:
     int timeOnCurrentJob;
     QTimer jobTimer;
 
+    QString file_name = "character.txt";
+
     static const int REQUIRED_TIME_ON_JOB = 10000;
 
     void updateMonthlyExpenses();
@@ -125,6 +118,7 @@ private:
     static Character* character;
     Character( const Character&);
     Character operator=(Character&);
+
 
 signals:
     void updateHealth();

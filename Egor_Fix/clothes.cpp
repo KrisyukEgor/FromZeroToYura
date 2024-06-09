@@ -46,7 +46,9 @@ void Clothes::on_pushButton_clicked()
     ui->pushButton->setEnabled(false);
     ui->pushButton->hide();
     ui->pushButton_2->setEnabled(true);
+
     Character::GetInstance()->setClothing("Кеды, шорты и майка");
+
     emit updateClothesSignal();
 }
 

@@ -99,10 +99,10 @@ Character::Character(int age, int happiness, int health, int money, int monthlyE
     updateMonthlyIncome();
 
 
-        // Set up a timer to update the balance and months at the job every in-game month
-        timer = new QTimer();
-        connect(timer, &QTimer::timeout, this, &Character::onInGameMonthPassed);
-        timer->start(1 * 30 * 1000); // 1 seconds for an in-game day
+    // Set up a timer to update the balance and months at the job every in-game month
+    timer = new QTimer();
+    connect(timer, &QTimer::timeout, this, &Character::onInGameMonthPassed);
+    timer->start(1 * 30 * 1000); // 1 seconds for an in-game day
 
 }
 
@@ -127,10 +127,13 @@ void Character::setHappiness(int newHappiness) { if (happiness != newHappiness) 
         happiness = newHappiness;
         emit characterDataChanged();
     } }
-void Character::setHealth(int newHealth) { if (health != newHealth) {
+void Character::setHealth(int newHealth) {
+
+    if (health != newHealth) {
         health = newHealth;
         emit characterDataChanged();
-    } }
+    }
+}
 void Character::setMoney(int newMoney) { if (money != newMoney) {
         money = newMoney;
         emit characterDataChanged();
@@ -141,6 +144,7 @@ void Character::setMonthlyIncome(int newMonthlyIncome) {if (monthlyIncome != new
     } }
 void Character::setMonthlyExpenses(int newMonthlyExpenses) {if (monthlyExpenses != newMonthlyExpenses) {
         monthlyExpenses = newMonthlyExpenses;
+
         emit characterDataChanged();
     } }
 
@@ -276,18 +280,82 @@ bool Character::canChangeJob() const {
         return timeOnCurrentJob >= REQUIRED_TIME_ON_JOB;
     }
 
-bool Character::loadCharacterData(const QString &filename) {
-    QFile file(filename);
+
+bool Character::loadCharacterData() {
+
+    QFile file(file_name);
+
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return false;
 
+    if(file.size() == 0) {
+        return false;
+    }
     QTextStream in(&file);
-    in >> age >> health >> happiness >> monthlyIncome >> monthlyExpenses >> money;
-    in >> job >> relationship >> clothes >> food >> housing >> transport;
+
+    QString age = in.readLine();
+    QString health = in.readLine();
+    QString happiness = in.readLine();
+    QString monthlyIncome = in.readLine();
+    QString monthlyExp = in.readLine();
+    QString money = in.readLine();
+    QString job = in.readLine();
+    QString relation = in.readLine();
+    QString clothes = in.readLine();
+    QString food = in.readLine();
+    QString housing = in.readLine();
+    QString transport = in.readLine();
+
+
+    this -> age = age.toInt();
+    this -> health = health.toInt();
+    this -> happiness = happiness.toInt();
+
+    this -> monthlyIncome = monthlyIncome.toInt();
+    this -> monthlyExpenses = monthlyExp.toInt();
+    this -> money = money.toInt();
+
+    this -> job = job;
+    this -> relationship = relation;
+    this -> clothes = clothes;
+    this -> food = food;
+    this -> housing = housing;
+    this -> transport = transport;
+
+
     file.close();
+
     return true;
 }
 
+bool Character::saveCharacterData() {
+    QFile file(file_name);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::information(nullptr, "Error!", "Couldn't save to file. File already exists.");
+        return false;
+    }
+
+    file.resize(0);
+
+    QTextStream out(&file);
+
+    out << age << '\n';
+    out << health << '\n';
+    out << happiness << '\n';
+
+    out << monthlyIncome << '\n';
+    out << monthlyExpenses << '\n';
+    out << money << '\n';
+
+    out << job << '\n';
+    out << relationship << '\n';
+    out << clothes << '\n';
+    out << food << '\n';
+    out << housing << '\n';
+    out << transport << '\n';
+
+    return true;
+}
 void Character::betChange(int money)
 {
     this->money -= money;

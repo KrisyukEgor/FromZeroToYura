@@ -6,6 +6,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QMouseEvent>
+
 #include "ui_mainwindow.h"
 #include "clothes.h"
 #include "happiness.h"
@@ -17,6 +18,7 @@
 #include "transport.h"
 #include "character.h"
 #include "casino.h"
+#include "startpage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -74,6 +76,9 @@ private slots:
 
     void on_playCasino_clicked();
 
+    void Start_new_game();
+    void Load_game();
+
 private:
     Ui::MainWindow *ui;
 
@@ -88,6 +93,8 @@ private:
     Character* character;
     Casino* casinoWindow;
 
+    StartPage* start_page;
+
 
     int countHealth = 1;
     int countHappiness = 1;
@@ -95,6 +102,8 @@ private:
     void checkGameOver();
     void happinessReminder();
     void healthReminder();
+
+
 
 };
 #endif // MAINWINDOW_H

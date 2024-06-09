@@ -11,23 +11,29 @@ StartPage::StartPage(QWidget *parent) : QWidget(parent) {
     layout->addWidget(loadButton);
     layout->addWidget(newGameButton);
 
+    setWindowTitle("Меню игры");
+    resize(300, 200);
+
     connect(loadButton, &QPushButton::clicked, this, &StartPage::loadGame);
     connect(newGameButton, &QPushButton::clicked, this, &StartPage::newGame);
 }
 
 void StartPage::loadGame() {
     Character *character = Character::GetInstance();
-    if (character->loadCharacterData("character.txt")) {
-        character->loadCharacterData("character.txt");
+
+    if (character->loadCharacterData()) {
+        character->loadCharacterData();
         QMessageBox::information(this, "Загрузка игры", "Данные персонажа успешно загружены.");
         emit gameLoaded();
-    } else {
+    }
+    else {
         QMessageBox::warning(this, "Загрузка игры", "Не удалось загрузить данные персонажа.");
     }
 }
 
 void StartPage::newGame() {
     Character *character = Character::GetInstance();
+
     character->setAge(18);
     character->setHealth(100);
     character->setHappiness(100);
@@ -41,8 +47,8 @@ void StartPage::newGame() {
     character->setHousing("Нет");
     character->setTransport("Нет");
 
-    if (character->saveCharacterData("character.txt")) {
-        character->saveCharacterData("character.txt");
+    if (character->saveCharacterData()) {
+        character->saveCharacterData();
         QMessageBox::information(this, "Новая игра", "Данные нового персонажа успешно сохранены.");
         emit newGameStarted();
     } else {

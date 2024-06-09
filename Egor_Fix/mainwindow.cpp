@@ -4,6 +4,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 {
     ui->setupUi(this);
 
+    start_page = new StartPage();
+    character = Character::GetInstance();
+
+    connect(start_page, &StartPage::newGameStarted, this, &MainWindow::Start_new_game);
+    connect(start_page, &StartPage::gameLoaded, this, &MainWindow::Load_game);
+
+    start_page -> show();
+
     clothesWindow = new Clothes();
     connect(clothesWindow, &Clothes::OpenMainWindow , this, &MainWindow::OpenWindow);
 
@@ -31,7 +39,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     casinoWindow = new Casino();
     connect(casinoWindow, &Casino::OpenMainWindow, this, &MainWindow::OpenWindow);
 
-
     connect(Character::GetInstance(), SIGNAL(updateHealth()), this, SLOT(updateHealth()));
     connect(Character::GetInstance(), SIGNAL(updateHappiness()), this, SLOT(updateHappiness()));
     connect(Character::GetInstance(), SIGNAL(updateMoney()), this, SLOT(updateMoney()));
@@ -45,6 +52,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(Character::GetInstance(), SIGNAL(updateIncome()), this, SLOT(updateIncome()));
     connect(Character::GetInstance(), SIGNAL(updateExpenses()), this, SLOT(updateExpenses()));
 
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::Load_game(){
     ui->healthBar->setValue(Character::GetInstance()->getHealth());
     ui->happinessBar->setValue(Character::GetInstance()->getHappiness());
     ui->moneyLabel->setText(QString::number(Character::GetInstance()->getMoney())+" $");
@@ -58,14 +73,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->incomeLabel->setText("Доход в месяц: " + QString::number(Character::GetInstance()->getMonthlyIncome()) + " $");
     ui->expensesLabel->setText("Расходы в месяц: " + QString::number(Character::GetInstance()->getMonthlyExpenses()) + " $");
 
+    show();
+    start_page -> hide();
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
+void MainWindow::Start_new_game(){
+    Load_game();
+
+    show();
+    start_page -> hide();
 }
-
-
 void MainWindow::on_findClothes_clicked()
 {
     clothesWindow->show();
@@ -73,6 +90,7 @@ void MainWindow::on_findClothes_clicked()
 }
 
 void MainWindow::OpenWindow(){
+    character -> saveCharacterData();
     show();
 }
 
@@ -156,12 +174,16 @@ void MainWindow::on_findFood_clicked()
 void MainWindow::updateHealth()
 {
     ui->healthBar->setValue(Character::GetInstance()->getHealth());
+    character -> saveCharacterData();
+
     checkGameOver();
     healthReminder();
 }
 
 void MainWindow::updateHappiness() {
     ui->happinessBar->setValue(Character::GetInstance()->getHappiness());
+    character -> saveCharacterData();
+
     checkGameOver();
     happinessReminder();
 }
@@ -170,45 +192,62 @@ void MainWindow::updateMoney() {
     ui->moneyLabel->setText(QString::number(Character::GetInstance()->getMoney())+" $");
     if(Character::GetInstance()->getMoney() <= 0) {
         Character::GetInstance()->setMoney(0);
+
     }
+    character -> saveCharacterData();
+
     checkGameOver();
 }
 
 void MainWindow::updateAge() {
     ui->ageLabel->setText(QString::number(Character::GetInstance()->getAge())+ " лет");
+    character -> saveCharacterData();
     checkGameOver();
 }
 
 void MainWindow::updateJob() {
     ui->jobLabel->setText("Должность: " + QString(Character::GetInstance()->getJob()));
+    character -> saveCharacterData();
 }
 
 void MainWindow::updateClothes() {
+    qDebug() << character -> getClothing();
+
     ui->clothesLabel->setText("Одежда: " + QString(Character::GetInstance()->getClothing()));
+
+    qDebug() << character -> getClothing();
+
+    character -> saveCharacterData();
 }
 
 void MainWindow::updateFood() {
     ui->foodLabel->setText("Питание: " + QString(Character::GetInstance()->getFood()));
+    character -> saveCharacterData();
 }
 
 void MainWindow::updateHousing() {
     ui->housingLabel->setText("Жилье: " + QString(Character::GetInstance()->getHousing()));
+    character -> saveCharacterData();
 }
 
 void MainWindow::updateTransport() {
     ui->transportLabel->setText("Транспорт: " + QString(Character::GetInstance()->getTransport()));
+    character -> saveCharacterData();
 }
 
 void MainWindow::updateRelationship() {
     ui->relationshipLabel->setText("Семейное положение: " + QString(Character::GetInstance()->getRelationship()));
+    character -> saveCharacterData();
 }
 
 void MainWindow::updateIncome() {
     ui->incomeLabel->setText("Доход в месяц: " + QString::number(Character::GetInstance()->getMonthlyIncome()) + " $");
+    character -> saveCharacterData();
 }
 
 void MainWindow::updateExpenses() {
     ui->expensesLabel->setText("Расходы в месяц: " + QString::number(Character::GetInstance()->getMonthlyExpenses()) + " $");
+    character -> saveCharacterData();
 }
 
 void MainWindow::happinessReminder() {
